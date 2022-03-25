@@ -7,8 +7,6 @@ if (!isset($_POST['content']))
   die('Invalid request format');
 
 ?>
-
-
 <?php
 
 $content = $_POST['content'];
