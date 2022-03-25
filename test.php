@@ -3,7 +3,7 @@
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
   die('Invalid request type');
 
-if (!isset($_POST['content'])
+if (!isset($_POST['content']))
   die('Invalid request format');
 
 ?>
