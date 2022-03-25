@@ -1,7 +1,7 @@
 <?php // ------ ERROR HANDLING
 
-if (!isset($_POST['content']))
-  die('Invalid request');
+if ($_SERVER['REQUEST_METHOD'] != 'POST')
+  die('Invalid request type');
 
 ?>
 
