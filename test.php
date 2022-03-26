@@ -17,9 +17,9 @@ $json = file_get_contents('php://input');
 
 $data = json_decode($json);
 
-if (!isset($data['username'])
- || !isset($data['password'])
- || !isset($data['log_type']))
+if (!isset($data->username)
+ || !isset($data->password)
+ || !isset($data->log_type))
   log_error('Invalid request format', 'Expected credentials and login type');
 
 $output = array();
