@@ -14,7 +14,7 @@ $config = parse_ini_file('../config/config.ini');
 $sql = mysqli_connect($config['servername'], $config['username'], $config['password'], $config['database']);
 
 // Check connection
-if (!$conn) {
+if (!$sql) {
   log_error('Connection failed', mysqli_connect_error());
 }
 
