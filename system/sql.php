@@ -30,32 +30,22 @@ function sql_error(int $code, string $msg): void
   log_error($code, $msg, mysqli_error($sql));
 }
 
-function query(string $query, int $err_creation, int $err_execution, string $param_types = null, mixed ...$params): mixed
+function query(string $query, string $param_types = null, mixed ...$params): mixed
 {
   global $sql;
   
   $stmt = mysqli_prepare($sql, $query);
   
   if ($stmt === false)
-    sql_error($err_creation, 'Failed to create query: '.$query);
+    sql_error(ERR_SQL_QueryCreationFailed, 'Failed to create query: '.$query);
   
   if ($param_types != null)
     mysqli_stmt_bind_param($stmt, $param_types, ...$params);
   
   if (mysqli_stmt_execute($stmt) === false)
-    sql_error($err_execution, 'Failed to execute query: '.$query);
+    sql_error(ERR_SQL_QueryExecutionFailed, 'Failed to execute query: '.$query);
   
   return mysqli_stmt_get_result($stmt);
-}
-
-function query(string $query, string $param_types = null, mixed ...$params): mixed
-{
-  return query(
-    $query,
-    ERR_SQL_QueryCreationFailed,
-    ERR_SQL_QueryExecutionFailed,
-    $param_types,
-    ...$params);
 }
 
 ?>
