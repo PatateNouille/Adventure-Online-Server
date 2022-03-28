@@ -39,22 +39,23 @@ switch ($data->log_type)
 {
   case 'REGISTER':
     {
+      $result = query(
+        'SELECT id FROM accounts WHERE username=?',
+        's',
+        $name
+      );
+
+      if ($result->num_rows != 0)
+        log_error(
+          ERR_ACC_UsernameNotUnique,
+          'Username not unique', 'An account with that username already exists');
+
       $hash = password_hash($pswd, PASSWORD_DEFAULT);
       
-      try
-      {
-        $result = query(
-          'INSERT INTO accounts(username, password) VALUES (?, ?)',
-          'ss',
-          $name, $hash);
-      }
-      catch (SqlException $e)
-      {
-        if ($e->getCode() == ERR_SQL_QueryExecutionFailed)
-          log_error(
-            ERR_ACC_UsernameNotUnique,
-            'Username not unique', 'An account with that username already exists');
-      }
+      $result = query(
+        'INSERT INTO accounts(username, password) VALUES (?, ?)',
+        'ss',
+        $name, $hash);
     }
     
   case 'LOGIN':
