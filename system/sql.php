@@ -2,6 +2,7 @@
 
 // ------ INCLUDES
 
+require_once('../config/local_paths.php');
 require_once('constants.php');
 require_once('system.php');
 
