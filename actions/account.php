@@ -2,7 +2,9 @@
 
 // ------ INCLUDES
 
-require('system/sql.php');
+require_once('../system/constants.php');
+require_once('../system/system.php');
+require_once('../system/sql.php');
 
 
 
