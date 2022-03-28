@@ -9,7 +9,7 @@ require_once('system.php');
 
 // ------ SQL INITIALIZATION
 
-$config = parse_ini_file('../config/config.ini');
+$config = parse_ini_file(DIR_ROOT.'config/config.ini');
 
 // Create connection
 $sql = mysqli_connect($config['servername'], $config['username'], $config['password'], $config['database']);

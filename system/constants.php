@@ -23,4 +23,9 @@ define('ACC', 'ACC_');
 define(ERR.ACC.'InvalidLogType', ++$const_idx);
 define(ERR.ACC.'UsernameNotUnique', ++$const_idx);
 
+
+
+// ------ PATHS
+
+define('DIR_ROOT', '/home/u247713460/domains/patatenouille.link/public_html/adventure-online/');
 ?>
