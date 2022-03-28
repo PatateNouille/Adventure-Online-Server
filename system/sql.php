@@ -30,7 +30,7 @@ function sql_error(int $code, string $msg): void
   log_error($code, $msg, mysqli_error($sql));
 }
 
-function query(string $query, string $param_types = null, mixed ...$params): mixed
+function query(string $query, string $param_types = null, ...$params): mixed
 {
   global $sql;
   
