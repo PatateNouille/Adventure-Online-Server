@@ -66,7 +66,7 @@ switch ($data->log_type)
       
       $obj = $result->fetch_object();
       
-      $output['account'] = password_verify($pswd, $obj->password) ? $obj->id : -1;
+      $output['id_account'] = password_verify($pswd, $obj->password) ? $obj->id : -1;
     }
     break;
     
