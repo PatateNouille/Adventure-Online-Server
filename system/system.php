@@ -10,6 +10,7 @@ require_once('constants.php');
 
 function log_error(int $code, string $msg, string $error): void
 {
+  http_response_code(500);
   die(json_encode([
     'code' => $code,
     'msg' => $msg,
