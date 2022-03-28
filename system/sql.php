@@ -12,7 +12,7 @@ require_once('system.php');
 $config = parse_ini_file(DIR_ROOT.'config/config.ini');
 
 // Create connection
-$sql = mysqli_connect($config['servername'], $config['username'], $config['password'], $config['database']);
+$sql = mysqli_connect($config['server'], $config['username'], $config['password'], $config['database']);
 
 // Check connection
 if (!$sql) {
