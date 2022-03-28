@@ -42,7 +42,7 @@ function sql_error(int $code, string $msg): void
   );
 }
 
-function query(string $query, string $param_types = null, ...$params): mysqli_result|false
+function query(string $query, string $param_types = null, ...$params)
 {
   global $sql;
   
