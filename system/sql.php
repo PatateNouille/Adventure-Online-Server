@@ -21,13 +21,25 @@ if (!$sql) {
 
 
 
+// ------ SQL EXCEPTIONS
+
+class SqlException extends Exception
+{
+
+}
+
+
+
 // ------ SQL HELPER METHODS
 
 function sql_error(int $code, string $msg): void
 {
   global $sql;
   
-  log_error($code, $msg, mysqli_error($sql));
+  throw new SqlException(
+    $msg.'\n'.mysqli_error($sql),
+    $code,
+  );
 }
 
 function query(string $query, string $param_types = null, ...$params): mixed

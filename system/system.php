@@ -17,4 +17,11 @@ function log_error(int $code, string $msg, string $error): void
   ]));
 }
 
+function exception_handler($e)
+{
+  log_error(ERR_Exception, $e->getMessage(), $e->getTrace());
+}
+
+set_exception_handler('exception_handler');
+
 ?>

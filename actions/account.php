@@ -41,15 +41,20 @@ switch ($data->log_type)
     {
       $hash = password_hash($pswd, PASSWORD_DEFAULT);
       
-      $result = query(
-        'INSERT INTO accounts(username, password) VALUES (?, ?)',
-        'ss',
-        $name, $hash);
-      
-      if (mysqli_errno() != 0)
-        log_error(
-          ERR_ACC_UsernameNotUnique,
-          'Username not unique', 'An account with that username already exists');
+      try
+      {
+        $result = query(
+          'INSERT INTO accounts(username, password) VALUES (?, ?)',
+          'ss',
+          $name, $hash);
+      }
+      catch (SqlException $e)
+      {
+        if ($e->getCode() == ERR_SQL_QueryExecutionFailed)
+          log_error(
+            ERR_ACC_UsernameNotUnique,
+            'Username not unique', 'An account with that username already exists');
+      }
     }
     
   case 'LOGIN':

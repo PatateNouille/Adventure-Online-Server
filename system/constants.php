@@ -6,6 +6,7 @@ $const_idx = -1;
 
 // -- Global
 define('ERR', 'ERR_');
+define(ERR.'Exception', ++$const_idx);
 
 // -- Server
 define('SERVER', 'SERVER_');
