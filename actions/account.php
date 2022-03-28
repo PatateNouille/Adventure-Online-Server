@@ -46,7 +46,7 @@ switch ($data->log_type)
       
       if (mysqli_errno() != 0)
         log_error(
-          Error_Code::ACC_UsernameNotUnique
+          Error_Code::ACC_UsernameNotUnique,
           'Username not unique', 'An account with that username already exists');
     }
     
