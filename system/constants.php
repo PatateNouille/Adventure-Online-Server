@@ -2,19 +2,25 @@
 
 // ------ ERROR CODES
 
-enum Error_Code
-{
-  case SERVER_InvalidRequestMethod;
-  case SERVER_InvalidRequestFormat;
+$const_idx = -1;
 
-  case SQL_ConnectionFailed;
-  case SQL_QueryCreationFailed;
-  case SQL_QueryExecutionFailed;
-  
+// -- Global
+define('ERR', 'ERR_');
 
-  
-  case ACC_InvalidLogType;
-  case ACC_UsernameNotUnique;
-}
+// -- Server
+define('SERVER', 'SERVER_');
+define(ERR.SERVER.'InvalidRequestMethod', ++$const_idx);
+define(ERR.SERVER.'InvalidRequestFormat', ++$const_idx);
+
+// -- SQL
+define('SQL', 'SQL_');
+define(ERR.SQL.'ConnectionFailed', ++$const_idx);
+define(ERR.SQL.'QueryCreationFailed', ++$const_idx);
+define(ERR.SQL.'QueryExecutionFailed', ++$const_idx);
+
+// -- Account
+define('ACC', 'ACC_');
+define(ERR.ACC.'InvalidLogType', ++$const_idx);
+define(ERR.ACC.'UsernameNotUnique', ++$const_idx);
 
 ?>

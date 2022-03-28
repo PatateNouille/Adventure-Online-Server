@@ -12,7 +12,7 @@ require_once('system/sql.php');
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
   log_error(
-    Error_Code::SERVER_InvalidRequestMethod,
+    ERR_SERVER_InvalidRequestMethod,
     'Invalid request type', 'REQUEST_METHOD != POST');
 
 

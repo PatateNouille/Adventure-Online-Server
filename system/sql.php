@@ -16,21 +16,21 @@ $sql = mysqli_connect($config['servername'], $config['username'], $config['passw
 
 // Check connection
 if (!$sql) {
-  log_error(Error_Code::SQL_ConnectionFailed, 'Connection failed', mysqli_connect_error());
+  log_error(ERR_SQL_ConnectionFailed, 'Connection failed', mysqli_connect_error());
 }
 
 
 
 // ------ SQL HELPER METHODS
 
-function sql_error(Error_Code $code, string $msg): void
+function sql_error(int $code, string $msg): void
 {
   global $sql;
   
   log_error($code, $msg, mysqli_error($sql));
 }
 
-function query(string $query, Error_Code $err_creation, Error_Code $err_execution, string $param_types = null, mixed ...$params): mixed
+function query(string $query, int $err_creation, int $err_execution, string $param_types = null, mixed ...$params): mixed
 {
   global $sql;
   
@@ -52,8 +52,8 @@ function query(string $query, string $param_types = null, mixed ...$params): mix
 {
   return query(
     $query,
-    Error_Code::SQL_QueryCreationFailed,
-    Error_Code::SQL_QueryExecutionFailed,
+    ERR_SQL_QueryCreationFailed,
+    ERR_SQL_QueryExecutionFailed,
     $param_types,
     ...$params);
 }

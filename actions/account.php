@@ -12,7 +12,7 @@ require_once('../system/sql.php');
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST')
   log_error(
-    Error_Code::SERVER_InvalidRequestMethod,
+    ERR_SERVER_InvalidRequestMethod,
     'Invalid request type', 'REQUEST_METHOD != POST');
 
 
@@ -27,7 +27,7 @@ if (!isset($data->username)
  || !isset($data->password)
  || !isset($data->log_type))
   log_error(
-    Error_Code::SERVER_InvalidRequestFormat,
+    ERR_SERVER_InvalidRequestFormat,
     'Invalid request format', 'Expected credentials and login type');
 
 $output = array();
@@ -48,7 +48,7 @@ switch ($data->log_type)
       
       if (mysqli_errno() != 0)
         log_error(
-          Error_Code::ACC_UsernameNotUnique,
+          ERR_ACC_UsernameNotUnique,
           'Username not unique', 'An account with that username already exists');
     }
     
@@ -67,7 +67,7 @@ switch ($data->log_type)
     
   default:
     log_error(
-      Error_Code::ACC_InvalidLogType,
+      ERR_ACC_InvalidLogType,
       'Invalid log type', 'Expected REGISTER or LOGIN');
     break;
 }
