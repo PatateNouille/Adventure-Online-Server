@@ -38,7 +38,7 @@ function sql_error(int $code, string $msg): void
   
   throw new SqlException(
     $msg.'\n'.mysqli_error($sql),
-    $code,
+    $code
   );
 }
 
