@@ -5,37 +5,42 @@
 require_once('../system/constants.php');
 require_once('../system/system.php');
 require_once('../system/sql.php');
+require_once('../system/action.php');
 
 
 
 // ------ ERROR HANDLING
 
-if ($_SERVER['REQUEST_METHOD'] != 'POST')
-  log_error(
-    ERR_SERVER_InvalidRequestMethod,
-    'Invalid request type', 'REQUEST_METHOD != POST');
+assert_request_method();
 
 
 
 // ------ TEST SCRIPT
 
-$json = file_get_contents('php://input');
+$input = new ActionInput();
+$output = new ActionOutput();
 
-$data = json_decode($json);
-
-if (!isset($data->username)
- || !isset($data->password)
- || !isset($data->log_type))
+try
+{
+  $input->assert_fields([
+    'log_type',
+    'username',
+    'password'
+  ]);
+}
+catch (ArgumentCountError $e)
+{
   log_error(
     ERR_SERVER_InvalidRequestFormat,
-    'Invalid request format', 'Expected credentials and login type');
+    'Request has invalid format',
+    $e->getMessage()
+  );
+}
 
-$output = array();
+$name = htmlspecialchars($input->get_field('username'));
+$pswd = htmlspecialchars($input->get_field('password'));
 
-$name = htmlspecialchars($data->username);
-$pswd = htmlspecialchars($data->password);
-
-switch ($data->log_type)
+switch ($input->get_field('log_type'))
 {
   case 'REGISTER':
     {
@@ -67,7 +72,7 @@ switch ($data->log_type)
       
       $obj = $result->fetch_object();
       
-      $output['id_account'] = password_verify($pswd, $obj->password) ? $obj->id : -1;
+      $output->set_field('id_account', password_verify($pswd, $obj->password) ? $obj->id : -1);
     }
     break;
     
@@ -78,6 +83,6 @@ switch ($data->log_type)
     break;
 }
 
-print(json_encode($output));
+echo $output->to_string();
 
 ?>
