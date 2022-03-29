@@ -77,5 +77,3 @@ class ActionOutput
     return json_encode($this->output);
   }
 }
-
-?>

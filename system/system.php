@@ -24,5 +24,3 @@ function exception_handler($e)
 }
 
 set_exception_handler('exception_handler');
-
-?>

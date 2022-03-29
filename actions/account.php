@@ -42,6 +42,14 @@ $pswd = htmlspecialchars($input->get_field('password'));
 
 switch ($input->get_field('log_type'))
 {
+  default:
+    log_error(
+      ERR_ACC_InvalidLogType,
+      'Invalid log type', 'Expected REGISTER or LOGIN');
+    break;
+
+
+
   case 'REGISTER':
     {
       $result = query(
@@ -63,6 +71,8 @@ switch ($input->get_field('log_type'))
         $name, $hash);
     }
     
+
+
   case 'LOGIN':
     {
       $result = query(
@@ -75,14 +85,6 @@ switch ($input->get_field('log_type'))
       $output->set_field('id_account', password_verify($pswd, $obj->password) ? $obj->id : -1);
     }
     break;
-    
-  default:
-    log_error(
-      ERR_ACC_InvalidLogType,
-      'Invalid log type', 'Expected REGISTER or LOGIN');
-    break;
 }
 
 echo $output->to_string();
-
-?>

@@ -60,5 +60,3 @@ function query(string $query, string $param_types = null, ...$params)
   
   return mysqli_stmt_get_result($stmt);
 }
-
-?>

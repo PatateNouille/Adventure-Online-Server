@@ -36,5 +36,3 @@ catch (ArgumentCountError $e)
 }
 
 echo $output->to_string();
-
-?>

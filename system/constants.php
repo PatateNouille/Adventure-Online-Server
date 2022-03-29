@@ -19,5 +19,3 @@ define('ERR_SQL_QueryExecutionFailed', ++$const_idx);
 // -- Account
 define('ERR_ACC_InvalidLogType', ++$const_idx);
 define('ERR_ACC_UsernameNotUnique', ++$const_idx);
-
-?>
