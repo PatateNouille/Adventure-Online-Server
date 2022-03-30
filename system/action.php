@@ -2,8 +2,8 @@
 
 // ------ INCLUDES
 
-require_once('constants.php');
-require_once('system.php');
+require_once("constants.php");
+require_once("system.php");
 
 
 
@@ -11,69 +11,137 @@ require_once('system.php');
 
 function assert_request_method()
 {
-  if ($_SERVER['REQUEST_METHOD'] != 'POST')
+  if ($_SERVER["REQUEST_METHOD"] != "POST")
     log_error(
       ERR_SERVER_InvalidRequestMethod,
-      'Invalid request type', 'REQUEST_METHOD != POST');
+      "Invalid request type", "REQUEST_METHOD != POST");
+}
+
+function assert_action_fields(ActionInput $input, array $fields, string $err_msg, int $err_code = ERR_SERVER_InvalidRequestFormat)
+{
+  foreach ($fields as $field)
+  {
+    $subfields = explode(".", $field);
+
+    $exists = true;
+    $last = $input;
+    foreach ($subfields as $subfield)
+    {
+      if (!isset($last[$subfield]))
+      {
+        $exists = false;
+        break;
+      }
+
+      $last = $last[$subfield];
+    }
+    
+    if ($exists) continue;
+
+    log_error(
+      $err_code,
+      $err_msg,
+      "Missing field '".$field."' !"
+    );
+  }
 }
 
 
 
 // ------ ACTION HELPER CLASSES
 
-class ActionInput
+class ActionInput implements ArrayAccess
 {
   protected $data;
 
 
   
-  public function __construct()
+  public static function make_from_post_body(): ActionInput
   {
-    $json = file_get_contents('php://input');
+    $json = file_get_contents("php://input");
     
-    $this->data = json_decode($json, true);
+    return new ActionInput(json_decode($json, true));
   }
 
-
-
-  public function assert_fields(array $fields)
+  public function __construct(array $data)
   {
-    foreach ($fields as $field)
+    $this->data = array();
+
+    foreach ($data as $key => $field)
     {
-      if (isset($this->data[$field]))
-        continue;
-      
-      throw new ArgumentCountError('Missing field "'.$field.'" !', ERR_SERVER_InvalidRequestFormat);
+      $this->data[$key] = is_array($field)
+        ? new ActionInput($field)
+        : $field;
     }
   }
 
-  public function get_field(string $name)
+
+
+  public function offsetGet($name)
   {
     if (!isset($this->data[$name]))
       return null;
 
     return $this->data[$name];
   }
+
+  public function offsetSet($name, $value): void
+  {
+    throw new Exception("Cannot set ActionInput field '".$name."'");
+  }
+
+
+
+  public function offsetExists($name): bool
+  {
+    return isset($this->data[$name]);
+  }
+
+  public function offsetUnset($name): void
+  {
+    throw new Exception("Cannot unset ActionInput field '".$name."'");
+  }
 }
 
 
 
-class ActionOutput
+class ActionOutput implements ArrayAccess
 {
-  protected $output = array();
+  protected $data = array();
 
 
 
-  public function set_field(string $name, $value): bool
+
+
+  public function offsetGet($name)
   {
-    $existed = isset($this->output[$name]);
-    $this->output[$name] = $value;
+    if (!isset($this->data[$name]))
+      return null;
 
-    return $existed;
+    return $this->data[$name];
   }
 
-  public function to_string(): string
+  public function offsetSet($name, $value): void
   {
-    return json_encode($this->output);
+    $this->data[$name] = $value;
+  }
+
+
+
+  public function offsetExists($name): bool
+  {
+    return isset($this->data[$name]);
+  }
+
+  public function offsetUnset($name): void
+  {
+    unset($this->data[$name]);
+  }
+
+
+
+  public function json(): string
+  {
+    return json_encode($this->data);
   }
 }
