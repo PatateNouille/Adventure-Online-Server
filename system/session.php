@@ -144,9 +144,19 @@ class Session
     if (Session::get_exp_time($exp_date) < 0)
       return false;
 
-    print(Session::hash_token($info->id, $info->username, $exp_date)."\n");
-
     return Session::verify_token($info->id, $info->username, $exp_date, $this->token);
+  }
+
+
+
+  public function get_id(): int
+  {
+    return $this->id;
+  }
+
+  public function get_token(): string
+  {
+    return $this->token;
   }
 
 

@@ -36,7 +36,8 @@ switch ($input["log_type"])
   default:
     log_error(
       ERR_ACC_InvalidLogType,
-      "Invalid log type", "Expected REGISTER or LOGIN");
+      "Invalid log type", "Expected REGISTER or LOGIN"
+    );
     break;
 
 
@@ -52,14 +53,16 @@ switch ($input["log_type"])
       if ($result->num_rows != 0)
         log_error(
           ERR_ACC_UsernameNotUnique,
-          "Username not unique", "An account with that username already exists");
+          "Username not unique", "An account with that username already exists"
+        );
 
       $hash = password_hash($pswd, PASSWORD_DEFAULT);
       
       $result = query(
         "INSERT INTO accounts(username, password) VALUES (?, ?)",
         "ss",
-        $name, $hash);
+        $name, $hash
+      );
     }
     
 
@@ -69,11 +72,21 @@ switch ($input["log_type"])
       $result = query(
         "SELECT id,password FROM accounts WHERE username=?",
         "s",
-        $name);
+        $name
+      );
       
-      $obj = $result->fetch_object();
+      $account = $result->fetch_object();
       
-      $input["id_account"] = password_verify($pswd, $obj->password) ? $obj->id : -1;
+      if (!$account || !password_verify($pswd, $account->password))
+        log_error(
+          ERR_ACC_InvalidCredentials,
+          "Invalid credentials", "The username and/or the password are/is incorrect"
+        );
+      
+      $session = Session::open($account->id);
+
+      $output["session_id"] = $session->get_id();
+      $output["session_token"] = $session->get_token();
     }
     break;
 }
