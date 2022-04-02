@@ -9,6 +9,20 @@ require_once("action.php");
 
 
 
+// ------ SESSION HELPER METHODS
+
+function assert_session_valid(Session $session): void
+{
+  if ($session->is_valid()) return;
+
+  log_error(
+    ERR_SES_InvalidSession,
+    "Invalid session", "The session provided is invalid, you may need to log in again"
+  );
+}
+
+
+
 // ------ SESSION CLASS
 
 class Session
