@@ -6,6 +6,7 @@ require_once("../system/constants.php");
 require_once("../system/system.php");
 require_once("../system/sql.php");
 require_once("../system/action.php");
+require_once("../system/session.php");
 
 
 

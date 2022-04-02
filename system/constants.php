@@ -24,3 +24,11 @@ define("ERR_ACC_InvalidCredentials", ++$const_idx);
 // -- Session
 define("ERR_SES_InvalidFormat", ++$const_idx);
 define("ERR_SES_InvalidSession", ++$const_idx);
+
+
+
+// ------ SESSION
+// Duration in hours
+define('SESSION_Duration', 2);
+// Session is near expired if time left (in seconds) is inferior to this
+define('SESSION_NearExpired', 600);
