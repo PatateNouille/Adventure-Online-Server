@@ -24,6 +24,6 @@ $output = new ActionOutput();
 $session = Session::make_from_action($input);
 
 $output["valid"] = $session->is_valid();
-$output["near_expired"] = $session->get_time_left() < SESSION_NearExpired;
+$output["nearExpired"] = $session->get_time_left() < SESSION_NearExpired;
 
 echo_json($output->json());

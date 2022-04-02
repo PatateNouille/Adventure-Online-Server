@@ -22,7 +22,7 @@ $input = ActionInput::make_from_post_body();
 $output = new ActionOutput();
 
 assert_action_fields($input, [
-  "log_type",
+  "logType",
   "username",
   "password"
 ], "Request has invalid format");
@@ -32,7 +32,7 @@ assert_action_fields($input, [
 $name = htmlspecialchars($input["username"]);
 $pswd = htmlspecialchars($input["password"]);
 
-switch ($input["log_type"])
+switch ($input["logType"])
 {
   default:
     log_error(
@@ -86,8 +86,8 @@ switch ($input["log_type"])
       
       $session = Session::open($account->id);
 
-      $output["session_id"] = $session->get_id();
-      $output["session_token"] = $session->get_token();
+      $output["id"] = $session->get_id();
+      $output["token"] = $session->get_token();
     }
     break;
 }
