@@ -46,7 +46,7 @@ switch ($input["logType"])
   case "REGISTER":
     {
       $result = query(
-        "SELECT id FROM accounts WHERE username=?",
+        "SELECT id FROM account WHERE username=?",
         "s",
         $name
       );
@@ -60,7 +60,7 @@ switch ($input["logType"])
       $hash = password_hash($pswd, PASSWORD_DEFAULT);
       
       $result = query(
-        "INSERT INTO accounts(username, password) VALUES (?, ?)",
+        "INSERT INTO account(username, password) VALUES (?, ?)",
         "ss",
         $name, $hash
       );
@@ -71,7 +71,7 @@ switch ($input["logType"])
   case "LOGIN":
     {
       $result = query(
-        "SELECT id,password FROM accounts WHERE username=?",
+        "SELECT id,password FROM account WHERE username=?",
         "s",
         $name
       );

@@ -61,7 +61,7 @@ class Session
   public static function open(int $account_id): Session
   {
     $result = query(
-      "SELECT id FROM sessions WHERE id_account = ?",
+      "SELECT id FROM session WHERE id_account = ?",
       "i",
       $account_id
     );
@@ -72,18 +72,19 @@ class Session
     }
 
     $result = query(
-      "SELECT open_session(?) AS id",
-      "i",
-      $account_id
+      "SELECT open_session(?, ?) AS id",
+      "ii",
+      $account_id,
+      SESSION_Duration
     );
 
     $id = $result->fetch_object()->id;
 
     $result = query(
-      "SELECT accounts.username, sessions.expiration
-       FROM sessions, accounts
-       WHERE sessions.id = ?
-       AND sessions.id_account = accounts.id",
+      "SELECT account.username, session.expiration
+       FROM session, account
+       WHERE session.id = ?
+       AND session.id_account = account.id",
       "i",
       $id
     );
@@ -113,7 +114,7 @@ class Session
   public function exists(): bool
   {
     $result = query(
-      "SELECT id FROM sessions WHERE id = ?",
+      "SELECT id FROM session WHERE id = ?",
       "i",
       $this->id
     );
@@ -124,7 +125,7 @@ class Session
   public function get_time_left(): int
   {
     $result = query(
-      "SELECT expiration FROM sessions WHERE id = ?",
+      "SELECT expiration FROM session WHERE id = ?",
       "i",
       $this->id
     );
@@ -141,10 +142,10 @@ class Session
   public function is_valid(): bool
   {
     $result = query(
-      "SELECT sessions.id, accounts.username, sessions.expiration
-       FROM sessions, accounts
-       WHERE sessions.id = ?
-       AND sessions.id_account = accounts.id",
+      "SELECT session.id, account.username, session.expiration
+       FROM session, account
+       WHERE session.id = ?
+       AND session.id_account = account.id",
       "i",
       $this->id
     );
@@ -195,7 +196,7 @@ class Session
   protected static function internal_close(int $session_id)
   {
     query(
-      "DELETE FROM sessions WHERE id = ?",
+      "DELETE FROM session WHERE id = ?",
       "i",
       $session_id
     );
