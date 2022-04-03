@@ -37,7 +37,7 @@ if (!$session->is_valid())
 $loc_id = htmlspecialchars($input["id"]);
 
 $result = query(
-    "SELECT * FROM floor WHERE id_location = ?",
+    "SELECT * FROM floor WHERE id_location = ? ORDER BY floor ASC",
     "i",
     $loc_id
 );
