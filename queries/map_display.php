@@ -29,6 +29,7 @@ while ($loc = $result->fetch_object())
 {
     $locs []= 
     [
+        "id" => $loc->id,
         "pos" => [ "x" => $loc->pos_x, "y" => $loc->pos_y ],
         "name" => $loc->name,
         "levelType" => $loc->id_level_type
