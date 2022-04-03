@@ -35,6 +35,6 @@ while ($loc = $result->fetch_object())
     ];
 }
 
-$output["dropPoints"] = $locs;
+$output["locations"] = $locs;
 
 echo_json($output->json());
